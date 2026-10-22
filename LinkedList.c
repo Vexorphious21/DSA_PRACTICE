@@ -37,6 +37,21 @@ struct node *insertatend(struct node * head, int data)
     return head;
 }
 
+struct node *insertafternode(struct node * head, int data,int n)
+{
+    struct node * temp=createnode(data);
+    struct node * temp1=head;
+    int i=0;
+    while(i<n-1)
+    {
+        temp1=temp1->next;
+        i++;
+    }
+    temp->next=temp1->next;
+    temp1->next=temp;
+    return head;
+}
+
 void display(struct node * head)
 {
     while(head!=NULL)
@@ -50,11 +65,11 @@ void display(struct node * head)
 int main()
 {
     struct node * head=NULL;
-    int ch,n;
+    int ch,n,pos;
     do
     {   
         printf("**************LINKED LIST PROGRAM MENU**************\n");
-        printf("1.Insert at Begininng.\n2.Insert at End.\n3.Display.\n4.Exit.\n");
+        printf("1.Insert at Begininng.\n2.Insert at End.\n3.Insert before nth node\n4.Insert at nth node\n5.Insert after nth node.\n6.Display.\n7.Exit.\n");
         scanf("%d",&ch);
         switch(ch){
             case 1:
@@ -67,16 +82,23 @@ int main()
                 scanf("%d",&n);
                 head=insertatend(head,n);
                 break;
-            case 3:
+            case 5:
+                printf("Enter Element to insert:");
+                scanf("%d",&n);
+                printf("Enter pos to insert after:");
+                scanf("%d",&pos);
+                head=insertafternode(head,n,pos);
+                break;
+            case 6:
                 printf("Elements are:\n");
                 display(head);
                 break;
-            case 4:
+            case 7:
                 printf("Exiting....\n");
             default:
                 break;
         }
     }
-    while(ch!=4);
+    while(ch!=7);
     return 0;
 }
