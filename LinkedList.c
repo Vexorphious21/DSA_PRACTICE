@@ -37,18 +37,49 @@ struct node *insertatend(struct node * head, int data)
     return head;
 }
 
-struct node *insertafternode(struct node * head, int data,int n)
+struct node *insertatnode(struct node * head, int data,int n)
 {
     struct node * temp=createnode(data);
     struct node * temp1=head;
-    int i=0;
-    while(i<n-1)
+    if(n==1)
     {
-        temp1=temp1->next;
-        i++;
+        head=insertatbegin(head,data);
     }
-    temp->next=temp1->next;
-    temp1->next=temp;
+    else
+    {
+        int i=0;
+        while(i<n-2)
+        {
+            temp1=temp1->next;
+            i++;
+        }
+        temp->next=temp1->next;
+        temp1->next=temp;
+    }
+    return head;
+}
+
+struct node * deleteatbegin(struct node *head)
+{
+    if(head==NULL)
+        printf("List is Empty\n");
+        return head;
+    struct node *ptr=head;
+    head=head->next;
+    free(ptr);
+    return head;
+}
+
+struct node * deleteatend(struct node *head)
+{
+    if(head==NULL)
+        printf("List is Empty\n");
+        return head;
+    while(head->next->next!=NULL)
+    {
+        head=head->next;
+    }
+    head->next=NULL;
     return head;
 }
 
@@ -69,7 +100,7 @@ int main()
     do
     {   
         printf("**************LINKED LIST PROGRAM MENU**************\n");
-        printf("1.Insert at Begininng.\n2.Insert at End.\n3.Insert before nth node\n4.Insert at nth node\n5.Insert after nth node.\n6.Display.\n7.Exit.\n");
+        printf("1.Insert at Begininng.\n2.Insert at End.\n3.Insert at nth node.\n4.Delete at begin.\n5.Delete at begin.\n9.Display.\n10.Exit.\n");
         scanf("%d",&ch);
         switch(ch){
             case 1:
@@ -82,23 +113,31 @@ int main()
                 scanf("%d",&n);
                 head=insertatend(head,n);
                 break;
-            case 5:
+            case 3:
                 printf("Enter Element to insert:");
                 scanf("%d",&n);
-                printf("Enter pos to insert after:");
+                printf("Enter pos to insert at:");
                 scanf("%d",&pos);
-                head=insertafternode(head,n,pos);
+                head=insertatnode(head,n,pos);
                 break;
-            case 6:
+            case 4:
+                head=deleteatbegin(head);
+                printf("Element deleted");
+                break;
+            case 5:
+                head=deleteatend(head);
+                printf("Element deleted");
+                break;
+            case 9:
                 printf("Elements are:\n");
                 display(head);
                 break;
-            case 7:
+            case 10:
                 printf("Exiting....\n");
             default:
                 break;
         }
     }
-    while(ch!=7);
+    while(ch!=9);
     return 0;
 }
