@@ -83,6 +83,59 @@ struct node * deleteatend(struct node *head)
     return head;
 }
 
+struct node * deletenthnode(struct node *head,int pos)
+{
+    if(head==NULL)
+    {    
+        printf("List is Empty\n");
+        return head;
+    }
+    struct node * temp=head;
+    if(pos==1)
+        return deleteatbegin(head);
+    int i=0;
+    while(i<pos-2)
+    {
+        temp=temp->next;
+        i++;
+    }
+    struct node* temp1=temp->next;
+    temp->next=temp->next->next;
+    free(temp1);
+    return head;
+}
+
+struct node* deletevalue(struct node * head,int value)
+{
+    if(head==NULL)
+    {    
+        printf("List is Empty\n");
+        return head;
+    }
+    if (head->data == value)
+    {
+        struct node *temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    }
+    struct node *p = head;
+    while (p->next != NULL && p->next->data != value)
+    {
+        p = p->next;
+    }
+    if (p->next == NULL)
+    {
+        printf("Value not found\n");
+        return head;
+    }
+    struct node *temp = p->next;
+    p->next = temp->next;
+    free(temp);
+
+    return head;
+}
+
 void display(struct node * head)
 {
     while(head!=NULL)
@@ -100,7 +153,7 @@ int main()
     do
     {   
         printf("**************LINKED LIST PROGRAM MENU**************\n");
-        printf("1.Insert at Begininng.\n2.Insert at End.\n3.Insert at nth node.\n4.Delete at begin.\n5.Delete at begin.\n9.Display.\n10.Exit.\n");
+        printf("1.Insert at Begininng.\n2.Insert at End.\n3.Insert at nth node.\n4.Delete at begin.\n5.Delete at end.\n6.Delete at nth node.\n7.Delete node with value.\n9.Display.\n10.Exit.\n");
         scanf("%d",&ch);
         switch(ch){
             case 1:
@@ -122,11 +175,22 @@ int main()
                 break;
             case 4:
                 head=deleteatbegin(head);
-                printf("Element deleted");
+                printf("Element deleted\n");
                 break;
             case 5:
                 head=deleteatend(head);
-                printf("Element deleted");
+                printf("Element deleted\n");
+                break;
+            case 6:
+                printf("Enter element position to delete:");
+                scanf("%d",&pos);
+                head=deletenthnode(head,pos);
+                printf("Element deleted\n");
+                break;
+            case 7:
+                printf("Enter Value to delete:");
+                scanf("%d",&n);
+                head=deletevalue(head,n);
                 break;
             case 9:
                 printf("Elements are:\n");
@@ -138,6 +202,6 @@ int main()
                 break;
         }
     }
-    while(ch!=9);
+    while(ch!=10);
     return 0;
 }
